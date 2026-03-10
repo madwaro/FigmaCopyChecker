@@ -1,12 +1,12 @@
-# Figma Copy Checker
+# Figma Design Reviewer
 
-A UX review tool that uses **GitHub Copilot** and **Figma's MCP server** to check UI text and file organization — right from VS Code.
+A UX review tool that uses **GitHub Copilot** and **Figma's MCP server** to check UI copy, evaluate usability, and audit file organization — right from VS Code.
 
-Select a frame in Figma, ask Copilot to review it, and get an instant structured report with actionable feedback.
+Select a frame in Figma, ask Copilot to review it, and get an instant structured report with actionable feedback across three dimensions.
 
 ## What it checks
 
-### Copy review (Microsoft Writing Style Guide)
+### 1. Copy review (Microsoft Writing Style Guide)
 
 | Category | Examples |
 |----------|----------|
@@ -19,7 +19,22 @@ Select a frame in Figma, ask Copilot to review it, and get an instant structured
 | **Inclusive language** | Gender-neutral terms, people-first disability language |
 | **Accessibility** | No idioms, US English spelling, scannable structure |
 
-### File hygiene review
+### 2. UX design review (Nielsen's 10 Usability Heuristics)
+
+| Heuristic | What's checked |
+|-----------|---------------|
+| **Visibility of system status** | Loading indicators, success/error feedback, active states |
+| **Match with real world** | Familiar icons, logical information order, user-facing language |
+| **User control & freedom** | Undo, cancel, back navigation, confirmation on destructive actions |
+| **Consistency & standards** | Button styles, spacing, design system alignment |
+| **Error prevention** | Disabled states, inline validation, smart defaults |
+| **Recognition over recall** | Visible labels, in-context info, breadcrumbs |
+| **Flexibility & efficiency** | Keyboard shortcuts, bulk actions, search/filter |
+| **Aesthetic & minimalist design** | Visual hierarchy, white space, information density |
+| **Error recovery** | Error states, helpful messages, recovery paths |
+| **Help & documentation** | Tooltips, onboarding hints, "Learn more" links |
+
+### 3. File hygiene review
 
 | Category | Examples |
 |----------|----------|
@@ -71,19 +86,27 @@ Open Copilot Chat in VS Code (`Ctrl+Shift+I` / `Cmd+Shift+I`). You should see **
 2. In VS Code, open **Copilot Chat** and type:
 
    ```
-   Check the copy on this selection
+   Analyze the selected frame
    ```
 
-3. Copilot will pull the text from your Figma selection, evaluate it against the style guide, and return a structured report.
+3. Copilot will pull the design from your Figma selection and return a structured report covering copy, UX design, and file hygiene.
 
-4. The report is automatically saved to the `./reports/` folder as a markdown file (e.g., `2026-03-10-homepage.md`).
+4. The report is automatically saved to the `./reports/` folder as a markdown file with a screenshot (e.g., `2026-03-10-1430-homepage.md`).
 
 ### Example prompts
+
+**Full review (all three sections):**
+- `Analyze the selected frame`
+- `Review this selection`
 
 **Copy review:**
 - `Check the copy on this selection`
 - `Review the UX copy for this frame`
 - `Audit the text in this dialog for style guide compliance`
+
+**UX design review:**
+- `Review the UX design of this frame`
+- `Check usability heuristics on this selection`
 
 **File hygiene review:**
 - `Check the file hygiene on this selection`
@@ -95,7 +118,8 @@ Open Copilot Chat in VS Code (`Ctrl+Shift+I` / `Cmd+Shift+I`). You should see **
 Every review is saved to `./reports/` with the naming format:
 
 ```
-YYYY-MM-DD-<frame-name>.md
+YYYY-MM-DD-HHmm-<frame-name>.md
+YYYY-MM-DD-HHmm-<frame-name>.png  (screenshot)
 ```
 
 Reports include:
@@ -115,6 +139,7 @@ The rules live in `.github/copilot-instructions.md`. You can:
 ## References
 
 - [Microsoft Writing Style Guide](https://learn.microsoft.com/en-us/style-guide/welcome/)
+- [Nielsen's 10 Usability Heuristics](https://www.nngroup.com/articles/ten-usability-heuristics/)
 - [Brand Voice: Simple and Human](https://learn.microsoft.com/en-us/style-guide/brand-voice-above-all-simple-human)
 - [Top 10 Tips for Microsoft Style](https://learn.microsoft.com/en-us/style-guide/top-10-tips-style-voice)
 - [Capitalization](https://learn.microsoft.com/en-us/style-guide/capitalization)
