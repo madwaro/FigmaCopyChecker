@@ -1,10 +1,12 @@
 # Figma Copy Checker
 
-A UX copy review tool that uses **GitHub Copilot** and **Figma's MCP server** to check UI text against the [Microsoft Writing Style Guide](https://learn.microsoft.com/en-us/style-guide/welcome/).
+A UX review tool that uses **GitHub Copilot** and **Figma's MCP server** to check UI text and file organization — right from VS Code.
 
-Select a frame in Figma, ask Copilot to check the copy, and get an instant structured report with actionable feedback — right from VS Code.
+Select a frame in Figma, ask Copilot to review it, and get an instant structured report with actionable feedback.
 
 ## What it checks
+
+### Copy review (Microsoft Writing Style Guide)
 
 | Category | Examples |
 |----------|----------|
@@ -16,6 +18,17 @@ Select a frame in Figma, ask Copilot to check the copy, and get an instant struc
 | **UI-element rules** | Specific checks for buttons, errors, dialogs, tooltips, labels, links |
 | **Inclusive language** | Gender-neutral terms, people-first disability language |
 | **Accessibility** | No idioms, US English spelling, scannable structure |
+
+### File hygiene review
+
+| Category | Examples |
+|----------|----------|
+| **Layer naming** | Default names like "Frame 47" or "Rectangle 123" |
+| **Nesting depth** | Layers nested more than 6 levels deep |
+| **Hidden layers** | Invisible layers still cluttering the tree |
+| **Loose elements** | Frames with 15+ ungrouped direct children |
+| **Naming consistency** | Mixed casing or numbering patterns among siblings |
+| **Instance clarity** | Non-descriptive component instance names |
 
 Issues are categorized by severity: 🔴 High · 🟡 Medium · 🔵 Low
 
@@ -67,9 +80,15 @@ Open Copilot Chat in VS Code (`Ctrl+Shift+I` / `Cmd+Shift+I`). You should see **
 
 ### Example prompts
 
+**Copy review:**
 - `Check the copy on this selection`
 - `Review the UX copy for this frame`
 - `Audit the text in this dialog for style guide compliance`
+
+**File hygiene review:**
+- `Check the file hygiene on this selection`
+- `Review the layer organization for this frame`
+- `Audit the layer naming in this screen`
 
 ## Reports
 

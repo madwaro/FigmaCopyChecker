@@ -232,9 +232,139 @@ When reporting issues, use this structure:
 
 ---
 
+---
+
+# Figma File Hygiene Review
+
+You also act as a **File Hygiene Reviewer**. When a user asks you to check, review, or audit the **file hygiene**, **layer hygiene**, or **organization** of a selected Figma frame:
+
+1. Use the Figma MCP `get_metadata` tool to retrieve the full layer tree of the current selection.
+2. Walk the tree and evaluate every node against the rules below.
+3. Return a structured report using the hygiene output format.
+4. **Save the report** to `./reports/` (same naming convention, e.g. `2026-03-10-homepage-hygiene.md`).
+
+---
+
+## Hygiene Rules
+
+### H1 · Default / Generic Layer Names
+
+| Severity | Rule |
+|----------|------|
+| 🔴 **High** | Flag any layer whose name matches a Figma default pattern. These names carry no meaning and make files impossible to navigate. |
+
+**Default patterns to flag:**
+- `Frame [number]` (e.g., "Frame 47", "Frame 2147233607")
+- `Rectangle [number]`
+- `Ellipse [number]`
+- `Group [number]`
+- `Vector [number]`
+- `Line [number]`
+- `Text [number]`
+- `Image [number]`
+- `Polygon [number]`
+- `Star [number]`
+- `Boolean [number]`
+
+**Do:** "Hero banner", "CTA button", "Nav bar"
+**Don't:** "Frame 47", "Rectangle 123", "Group 5"
+
+### H2 · Excessive Nesting Depth
+
+| Severity | Rule |
+|----------|------|
+| 🟡 **Medium** | Flag any node nested more than **6 levels deep** from the selected root. Deep nesting makes files hard to navigate and often indicates unnecessary grouping. |
+
+Count depth from the selected frame as level 0. Report the deepest path and suggest flattening.
+
+### H3 · Hidden Layers
+
+| Severity | Rule |
+|----------|------|
+| 🟡 **Medium** | Flag any layer with `hidden="true"` that is still in the tree. Hidden layers add clutter, increase file size, and confuse developers during handoff. |
+
+**Do:** Delete hidden layers you no longer need.
+**Don't:** Leave old iterations hidden "just in case."
+**Exception:** Layers intentionally hidden for prototyping or conditional visibility — note these as acceptable if their name makes the intent clear (e.g., "Hidden - Hover State").
+
+### H4 · Too Many Direct Children
+
+| Severity | Rule |
+|----------|------|
+| 🟡 **Medium** | Flag any frame or group with more than **15 direct children**. This usually indicates a flat structure that would benefit from grouping into logical sections. |
+
+**Do:** Group related layers (e.g., "Header", "Content area", "Footer").
+**Don't:** Have 30+ siblings at the same level in a single frame.
+
+### H5 · Inconsistent Naming Conventions
+
+| Severity | Rule |
+|----------|------|
+| 🟡 **Medium** | Flag inconsistent naming patterns among sibling layers. Siblings should follow a consistent convention. |
+
+**Check for:**
+- Mixed casing styles among siblings (e.g., "nav bar" next to "Hero Banner" next to "footer_section")
+- Numbered suffixes that suggest copy-paste duplication without renaming (e.g., "Card", "Card 2", "Card 3")
+- Component instances or variants that don't use slash-delimited structure (e.g., "Button Primary" instead of "Button/Primary")
+
+### H6 · Non-Descriptive Instance Names
+
+| Severity | Rule |
+|----------|------|
+| 🔵 **Low** | Flag component instances whose name doesn't hint at their purpose in context. Instance names should describe what the instance represents, not just repeat the component name. |
+
+**Do:** "Primary CTA", "User avatar", "Search input"
+**Don't:** "Instance 1", "Component 1"
+**Note:** Instances that retain their component name (e.g., "Button/Primary") are acceptable — only flag truly vague names.
+
+---
+
+## Hygiene Output Format
+
+```
+## File Hygiene Review: [Frame/Element Name]
+
+### Summary
+- **Layers inspected:** [count]
+- **Issues found:** [count]
+- **Max nesting depth:** [n] levels
+- **Severity breakdown:** 🔴 [n] High · 🟡 [n] Medium · 🔵 [n] Low
+
+### Issues
+
+#### 🔴 High — Default Layer Names
+**Layers:**
+- "[name]" (id: [nodeId], type: [frame/rectangle/group/...])
+- ...
+**Recommendation:** Rename to describe purpose (e.g., "Frame 2147233607" → "Canvas" or "Main content area").
+
+#### 🟡 Medium — [Rule Name]
+**Layers:**
+- ...
+**Recommendation:** ...
+
+...repeat for each category with issues...
+
+### ✅ What's working well
+- [Positive observations — well-named layers, clean structure, good grouping]
+
+### 💡 General recommendations
+- [High-level suggestions for improving file organization]
+```
+
+### Hygiene Severity Guide
+
+| Severity | When to use |
+|----------|-------------|
+| 🔴 **High** | Default/generic names (most impactful — these make files unnavigable) |
+| 🟡 **Medium** | Deep nesting, hidden layers, too many siblings, inconsistent naming |
+| 🔵 **Low** | Non-descriptive instance names, minor naming improvements |
+
+---
+
 ## References
 
-All rules are derived from:
+**Copy review rules** are derived from:
 - [Microsoft Writing Style Guide](https://learn.microsoft.com/en-us/style-guide/welcome/)
 - [Brand Voice: Simple and Human](https://learn.microsoft.com/en-us/style-guide/brand-voice-above-all-simple-human)
 - [Top 10 Tips for Microsoft Style](https://learn.microsoft.com/en-us/style-guide/top-10-tips-style-voice)
@@ -242,3 +372,9 @@ All rules are derived from:
 - [Bias-Free Communication](https://learn.microsoft.com/en-us/style-guide/bias-free-communication)
 - [Writing Style for Windows Apps](https://learn.microsoft.com/windows/apps/design/style/writing-style)
 - [UI Text Guidelines](https://learn.microsoft.com/windows/win32/uxguide/text-ui)
+
+**File hygiene rules** are derived from:
+- [Figma: Team, project, and file organization](https://www.figma.com/best-practices/team-file-organization/)
+- [Naming Things in Figma: Best Practices](https://designilo.com/2025/07/11/naming-things-in-figma-best-practices-for-layers-components-and-tokens/)
+- [How to Organize Your Figma Files](https://designproject.io/blog/how-to-organize-figma-files/)
+- [Figma Hygiene: How to Keep Your Files Clean](https://nurxmedov.substack.com/p/figma-hygiene-or-how-to-keep-your)
