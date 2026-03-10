@@ -1,4 +1,4 @@
-# Figma Design Reviewer
+# FigmaBuddy
 
 A UX review tool that uses **GitHub Copilot** and **Figma's MCP server** to check UI copy, evaluate usability, and audit file organization — right from VS Code.
 
@@ -64,8 +64,8 @@ Issues are categorized by severity: 🔴 High · 🟡 Medium · 🔵 Low
 ### 2. Open this project in VS Code
 
 ```bash
-git clone https://github.com/madwaro/FigmaCopyChecker.git
-cd FigmaCopyChecker
+git clone https://github.com/madwaro/FigmaBuddy.git
+cd FigmaBuddy
 code .
 ```
 
@@ -135,6 +135,35 @@ The rules live in `.github/copilot-instructions.md`. You can:
 - **Add rules** for your team's specific terminology or product voice
 - **Adjust severity** thresholds to match your review process
 - **Modify the output format** to fit your workflow
+
+## Checking for updates
+
+To see if there are new rules, features, or fixes available:
+
+```bash
+git fetch origin
+git log HEAD..origin/main --oneline
+```
+
+If updates are available, you'll see a list of new commits. If the output is empty, you're up to date.
+
+## Updating
+
+To pull the latest changes:
+
+```bash
+git pull origin main
+```
+
+If you've customized `.github/copilot-instructions.md` and there's a conflict:
+
+```bash
+git stash              # save your local changes
+git pull origin main   # pull latest
+git stash pop          # reapply your changes on top
+```
+
+Then resolve any merge conflicts in your editor. Your custom rules will be preserved alongside the new updates.
 
 ## References
 
